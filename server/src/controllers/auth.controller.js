@@ -30,7 +30,7 @@ export const signup = async (req, res) => {
     //send mail to a created user for entering seeing the OTP
     const mailOptions = {
             from: process.env.EMAIL_USER,
-            to: email,
+            to: email.toLowerCase(),
             subject: 'Verify Your Email',
             html: `
     <!DOCTYPE html>
@@ -76,7 +76,7 @@ export const signup = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
-        return res.status(200).json({success: true, user, message: "OTP send to you Email address"});
+        return res.status(200).json({success: true, message: "OTP send to you Email address"});
 
     } catch (error) {
         console.log("Error during registration: ", error)
@@ -105,7 +105,7 @@ export const verifyAccount = async(req, res) => {
         user.verifyOTPExpireAt = 0;
         user.save();
 
-        return res.status(200).json({success: true, message: "Account registration successfull"})
+        return res.status(200).json({success: true, user, message: "Account registration successfull"})
 
     } catch (error) {
         console.log("Error verifiying OTP: ", error)
