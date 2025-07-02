@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from 'bcryptjs'
 
 const userSchema = new mongoose.Schema({
-    fullname: { type: String, required: true },
+    fullName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, minlenth: 8 },
     verifyOTP: { type: String, default: '' },
@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     nativeLanguage: { type: String, default: '' },
     LearningLanguage: { type: String, default: '' },
     isOnboarded: { type: Boolean, default: false },
+    isAccountVerified: { type: Boolean, default: false },
     ResetOTP: { type: String, default: '' },
     ResetOTPExpireAt: { type: Number, default: 0 },
     friends: [
