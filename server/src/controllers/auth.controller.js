@@ -14,8 +14,12 @@ export const signup = async (req, res) => {
 
     try {
 
+    //const generate a random avatar as a initial profile pic.
+    const idx = Math.floor(1 + Math.random() * 100);
+    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+
     //create a new document in database
-    const user = new userModel({fullName, email, password});
+    const user = new userModel({fullName, email, password, profilePic: randomAvatar});
 
     //create a OTP for email verification
     const otp = (Math.floor(100000 + Math.random() * 900000)).toString();
@@ -61,6 +65,8 @@ export const signup = async (req, res) => {
 
         await transporter.sendMail(mailOptions);
 
+        // TODO: CREATE THE USER IN STREAM AS WELL
+
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'})
 
         res.cookie('token', token, {
@@ -70,9 +76,10 @@ export const signup = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
-        return res.status(200).json({success: true, message: "OTP send to you Email address"});
+        return res.status(200).json({success: true, user, message: "OTP send to you Email address"});
 
     } catch (error) {
+        console.log("Error during registration: ", error)
         return res.status(500).json({success: false, message: error.message});
     }
 
@@ -101,6 +108,7 @@ export const verifyAccount = async(req, res) => {
         return res.status(200).json({success: true, message: "Account registration successfull"})
 
     } catch (error) {
+        console.log("Error verifiying OTP: ", error)
         return res.status(500).json({success: false, message: error.message})
     }
 
