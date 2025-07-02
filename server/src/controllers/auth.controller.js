@@ -1,25 +1,26 @@
+import bcrypt from "bcryptjs";
 import transporter from "../configs/nodemailer.js";
 import userModel from "../models/User.js";
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res) => {
-    const {fullName, email, password} = req.body;
+  const { fullName, email, password } = req.body;
 
-    //check if all details are entered
-    if(!fullName || !email || !password) return res.status(400).json({success: false, message: 'Missing Details'});
+  //check if all details are entered
+  if (!fullName || !email || !password) return res.status(400).json({ success: false, message: 'Missing Details' });
 
-    //check if user exists already
-    const ExistingUser = await userModel.findOne({email});
-    if(ExistingUser) return res.status(400).json({success: false, message: 'User Already exists, please login!'});
+  //check if user exists already
+  const ExistingUser = await userModel.findOne({ email });
+  if (ExistingUser) return res.status(400).json({ success: false, message: 'User Already exists, please login!' });
 
-    try {
+  try {
 
     //const generate a random avatar as a initial profile pic.
     const idx = Math.floor(1 + Math.random() * 100);
     const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
 
     //create a new document in database
-    const user = new userModel({fullName, email, password, profilePic: randomAvatar});
+    const user = new userModel({ fullName, email, password, profilePic: randomAvatar });
 
     //create a OTP for email verification
     const otp = (Math.floor(100000 + Math.random() * 900000)).toString();
@@ -29,10 +30,10 @@ export const signup = async (req, res) => {
 
     //send mail to a created user for entering seeing the OTP
     const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: email.toLowerCase(),
-            subject: 'Verify Your Email',
-            html: `
+      from: process.env.EMAIL_USER,
+      to: email.toLowerCase(),
+      subject: 'Verify Your Email',
+      html: `
     <!DOCTYPE html>
     <html>
     <head>
@@ -61,64 +62,111 @@ export const signup = async (req, res) => {
     </body>
     </html>
   `
-        };
+    };
 
-        await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
 
-        // TODO: CREATE THE USER IN STREAM AS WELL
+    // TODO: CREATE THE USER IN STREAM AS WELL
 
-        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'})
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
 
-        return res.status(200).json({success: true, message: "OTP send to you Email address"});
+    return res.status(200).json({ success: true, message: "OTP send to you Email address" });
 
-    } catch (error) {
-        console.log("Error during registration: ", error)
-        return res.status(500).json({success: false, message: error.message});
-    }
+  } catch (error) {
+    console.log("Error during registration: ", error)
+    return res.status(500).json({ success: false, message: error.message });
+  }
 
 }
 
 //controller function to check the OTP and register
-export const verifyAccount = async(req, res) => {
-    const {userID, otp} = req.body;
+export const verifyAccount = async (req, res) => {
+  const { userID, otp } = req.body;
 
-    if(!userID || !otp) return res.status(400).json({success: false, message: " Missing details"})
-    
-    try {
-        const user = await userModel.findById(userID)
+  if (!userID || !otp) return res.status(400).json({ success: false, message: " Missing details" })
 
-        if(!user) return res.status(400).json({success: false, message: "Unauthorized, Register again"});
+  try {
+    const user = await userModel.findById(userID)
 
-        if(user.verifyOTP === '' || user.verifyOTP !== otp) return res.status(400).json({success: false, message: "Invalid OTP"})
-        
-        if(user.verifyOTPExpireAt < Date.now()) return res.status(400).json({success: false, message: "OTP Expired"})
+    if (!user) return res.status(400).json({ success: false, message: "Unauthorized, Register again" });
 
-        user.isAccountVerified = true;
-        user.verifyOTP = '';
-        user.verifyOTPExpireAt = 0;
-        user.save();
+    if (user.verifyOTP === '' || user.verifyOTP !== otp) return res.status(400).json({ success: false, message: "Invalid OTP" })
 
-        return res.status(200).json({success: true, user, message: "Account registration successfull"})
+    if (user.verifyOTPExpireAt < Date.now()) return res.status(400).json({ success: false, message: "OTP Expired" })
 
-    } catch (error) {
-        console.log("Error verifiying OTP: ", error)
-        return res.status(500).json({success: false, message: error.message})
-    }
+    user.isAccountVerified = true;
+    user.verifyOTP = '';
+    user.verifyOTPExpireAt = 0;
+    user.save();
+
+    return res.status(200).json({ success: true, user, message: "Account registration successfull" })
+
+  } catch (error) {
+    console.log("Error verifiying OTP: ", error)
+    return res.status(500).json({ success: false, message: error.message })
+  }
 
 }
 
 
 export const login = async (req, res) => {
-    res.send("Working for now")
+  const { email, password } = req.body;
+
+  if (!email || !password) return res.status(400).json({ success: false, message: "Missing details" });
+
+  try {
+
+    // ❗ Security Note:
+    // Using a generic error message for both email and password validation 
+    // prevents exposing whether a specific email exists in the system. Gives clues 
+    // to hackers about which emails exist in your system. Can lead to account discovery attacks
+    // This avoids user enumeration attacks and aligns with OWASP best practices.
+    const user = await userModel.findOne({ email });
+    if (!user) return res.status(401).json({ success: false, message: "Invalid email or password" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ success: false, message: "Invalid email or password" });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    return res.status(200).json({ success: true, user, message: "Login Successfull" });
+
+
+  } catch (error) {
+    console.log("Error verifiying OTP: ", error)
+    return res.status(500).json({ success: false, message: error.message })
+  }
+
 }
 
 export const logout = (req, res) => {
-    res.send("Working for now")
+  try {
+
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    return res.status(200).json({ success: true, message: "Logged out" });
+
+  } catch (error) {
+    console.log("Error during registration: ", error)
+    return res.status(500).json({ success: false, message: error.message });
+  }
 }
