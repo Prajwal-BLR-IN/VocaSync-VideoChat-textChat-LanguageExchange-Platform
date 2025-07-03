@@ -99,7 +99,8 @@ export const signup = async (req, res) => {
 
 //controller function to check the OTP and register
 export const verifyAccount = async (req, res) => {
-  const { userID, otp } = req.body;
+  const userID = req.user._id;
+  const { otp } = req.body;
 
   if (!userID || !otp) return res.status(400).json({ success: false, message: " Missing details" })
 
@@ -170,8 +171,7 @@ export const logout = (req, res) => {
     res.clearCookie('token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict'
     });
 
     return res.status(200).json({ success: true, message: "Logged out" });
@@ -180,4 +180,48 @@ export const logout = (req, res) => {
     console.log("Error during registration: ", error)
     return res.status(500).json({ success: false, message: error.message });
   }
+}
+
+export const onboarding = async(req, res) => {
+  const userID = req.user._id;
+  const {fullName, bio, nativeLanguage, learningLanguage, location} = req.body;
+
+  if(!fullName || !bio || !nativeLanguage || !learningLanguage || !location) return res.status(400).json({ 
+    success: false, message: "Missing details", 
+    missingDetails: [
+      !fullName && 'Full name',
+      !bio && 'Bio',
+      !nativeLanguage && 'Native language'  ,
+      !learningLanguage && 'Learning langauge' ,
+      !location && 'Locations'
+    ].filter(Boolean)
+  });
+
+  try {
+
+    // const user = await userModel.findByIdAndUpdate(userID, {fullName, bio, nativeLanguage, learningLanguage, location});
+    
+    //In Mongoose, by default, findByIdAndUpdate returns the old (pre-update) document, not the updated one. so using new will returns updated data
+    const user = await userModel.findByIdAndUpdate(userID, {...req.body, isOnboarded: true}, {new: true});
+
+    if(!user) return res.status(401).json({ success: false, message: "User not found Please signup" });
+
+     try {
+      await upsertStreamUser({
+        id: user._id,
+        name: user.fullName,
+        image: user.profilePic || ''
+      })
+      console.log("Stream user updated after onboarding: ", user.fullName)
+    } catch (error) {
+      console.log("Error updating the Stream user: ", error)
+    }
+    
+    return res.status(200).json({ success: true, message: "onboarding sucessfull" });
+    
+  } catch (error) {
+    console.log("Error setting up onbaording data: ", error)
+    return res.status(500).json({ success: false, message: error.message })
+  }
+
 }
