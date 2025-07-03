@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import transporter from "../configs/nodemailer.js";
 import userModel from "../models/User.js";
 import jwt from 'jsonwebtoken';
+import { upsertStreamUser } from "../configs/stream.js";
 
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -66,7 +67,17 @@ export const signup = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    // TODO: CREATE THE USER IN STREAM AS WELL
+    try {
+      await upsertStreamUser({
+        id: user._id,
+        name: user.fullName,
+        image: user.profilePic || ''
+      })
+      console.log("Stream user created: ", user.fullName)
+    } catch (error) {
+      console.log("Error creating the Stream user: ", error)
+    }
+
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
