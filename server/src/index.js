@@ -3,6 +3,7 @@ import 'dotenv/config'
 import cookieParser from 'cookie-parser'
 import authRouter from './routes/auth.route.js';
 import ConnectToDB from './configs/mongoDB.js';
+import userRouter from './routes/user.route.js';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter)
 
 
 app.listen(PORT, async() => {
