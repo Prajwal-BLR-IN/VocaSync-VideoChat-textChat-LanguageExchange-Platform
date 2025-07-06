@@ -1,9 +1,11 @@
 import express from 'express';
 import 'dotenv/config'
 import cookieParser from 'cookie-parser'
+
 import authRouter from './routes/auth.route.js';
 import ConnectToDB from './configs/mongoDB.js';
 import userRouter from './routes/user.route.js';
+import chatRouter from './routes/chat.routes.js';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -19,7 +21,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', authRouter);
-app.use('/api/users', userRouter)
+app.use('/api/users', userRouter);
+app.use('/api/chat', chatRouter);
 
 
 app.listen(PORT, async() => {

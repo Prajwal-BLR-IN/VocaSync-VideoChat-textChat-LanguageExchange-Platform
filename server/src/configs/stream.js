@@ -37,16 +37,19 @@ export const upsertStreamUser = async (userData) => {
  * @returns {string} - JWT token string that can be passed to the frontend
  */
 export const generateStreamToken = (userId) => {
-    if (!userId) {
+
+    const userIdStr = userId.toString();
+
+    if (!userIdStr) {
         console.error("❌ User ID is required to generate a token.");
         return null;
     }
 
     try {
-        const token = streamClient.createToken(userId); // Create token with backend privilege
+        const token = streamClient.createToken(userIdStr); // Create token with backend privilege
         return token;
     } catch (error) {
-        console.error("⚠️ Error generating token:", error);
+        console.error("Error stream generating token:", error);
         return null;
     }
 }
