@@ -5,7 +5,6 @@ import Login from './pages/Login'
 import NotFound from "./pages/NotFound";
 import toast, {Toaster} from 'react-hot-toast'
 import { useQuery } from "@tanstack/react-query";
-import axios from 'axios'
 import { axiosInstanace } from "./lib/axiosInstance";
 
 function App() {
@@ -13,7 +12,7 @@ function App() {
   const {data, isLoading, error} = useQuery({
     queryKey: ["todo"],
     queryFn: async () => {
-      const {data} =  await axiosInstanace.get('https://localhost:4001/api/auth/me')
+      const {data} =  await axiosInstanace.get('/auth/me')
       return data
     }
   })
