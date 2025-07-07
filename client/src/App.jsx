@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from "react";
 import "./index.css";
 import { Route, Routes } from "react-router-dom";
 import Home from './pages/Home'
 import Login from './pages/Login'
 import NotFound from "./pages/NotFound";
 import toast, {Toaster} from 'react-hot-toast'
+import { useQuery } from "@tanstack/react-query";
+import axios from 'axios'
+import { axiosInstanace } from "./lib/axiosInstance";
 
 function App() {
-  const getInitialTheme = () => {
-    const stored = localStorage.getItem("theme");
-    if (stored) return stored;
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    return systemPrefersDark ? "dark" : "light";
-  };
 
-  const [theme, setTheme] = useState(getInitialTheme);
+  const {data, isLoading, error} = useQuery({
+    queryKey: ["todo"],
+    queryFn: async () => {
+      const {data} =  await axiosInstanace.get('https://localhost:4001/api/auth/me')
+      return data
+    }
+  })
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  console.log("is loading ", isLoading)
+  console.log(data)
+  console.log("got error ",error) 
 
   return (
     <>
