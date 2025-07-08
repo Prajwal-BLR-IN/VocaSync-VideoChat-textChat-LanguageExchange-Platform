@@ -26,24 +26,30 @@ const Signup = () => {
   })
 
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (value) => {
-      try {
-        const { data } = await axiosInstanace.post('/auth/signup', value)
-        if (data.success) {
-          toast.success(data.message)
-          navigate('/')
-          return data;
-        }
-      } catch (error) {
-        console.log("Signup error:", error)
-        const backendMessage = error.response?.data?.message || error.message;
-        toast.error(backendMessage);
-      }
+const { mutate, isPending } = useMutation({
+  mutationFn: async (value) => {
+    const { data } = await axiosInstanace.post('/auth/signup', value);
+    if (data.success) {
+      toast.success(data.message);
+      navigate('/');
+      return data;
+    } else {
+      // In case success is false but no error was thrown
+      throw new Error("Signup failed");
+    }
+  },
 
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authUser'] })
-  })
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['authUser'] });
+  },
+
+  onError: (error) => {
+    console.log("Login error:", error);
+    const backendMessage = error.response?.data?.message || error.message;
+    toast.error(backendMessage);
+  }
+});
+
 
   const onSubmit = (value) => {
     mutate(value);

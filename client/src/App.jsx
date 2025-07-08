@@ -31,7 +31,7 @@ function App() {
     <Toaster />
     <Routes>
       <Route path="/" element={ authUser?  <Home /> : <Navigate to="/login"  /> } />
-      <Route path="/signin" element={ !authUser? <Signup /> : <Navigate to='/' /> } />
+      <Route path="/signup" element={ !authUser? <Signup /> : <Navigate to='/' /> } />
       <Route path="/login" element={ !authUser? <Login />:  <Navigate to='/' /> } />
       <Route path="/onboarding" element={ authUser? <Onboarding /> : <Navigate to="/login"/> } />
       <Route path="/notifications" element={ authUser? <Notificaon /> : <Navigate to="/login"/>  } />

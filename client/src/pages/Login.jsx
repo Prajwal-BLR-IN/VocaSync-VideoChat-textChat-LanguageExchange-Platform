@@ -21,24 +21,30 @@ const Login = () => {
     password: Yup.string().min(8, "⚠ must be 8+ charecters").required(' ⚠ Required'),
   })
 
-    const { mutate, isPending } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (value) => {
-      try {
-        const { data } = await axiosInstanace.post('/auth/login', value)
-        if (data.success) {
-          toast.success(data.message)
-          navigate('/')
-          return data;
-        }
-      } catch (error) {
-        console.log("Signup error:", error)
-        const backendMessage = error.response?.data?.message || error.message;
-        toast.error(backendMessage);
+      const { data } = await axiosInstanace.post('/auth/login', value);
+      if (data.success) {
+        toast.success(data.message);
+        navigate('/');
+        return data;
+      } else {
+        // In case success is false but no error was thrown
+        throw new Error("Login failed");
       }
-
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['authUser'] })
-  })
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['authUser'] });
+    },
+
+    onError: (error) => {
+      console.log("Login error:", error);
+      const backendMessage = error.response?.data?.message || error.message;
+      toast.error(backendMessage);
+    }
+  });
+
 
   const onSubmit = (value) => {
     mutate(value);
@@ -58,7 +64,7 @@ const Login = () => {
                 <p className="form-paragraph">Sign in to your account to continue your language journey</p>
 
                 <div className="form-field">
-                  
+
                   {/* Email */}
                   <label htmlFor="email" className="form-label">
                     <span>Email</span>
@@ -94,20 +100,20 @@ const Login = () => {
                 </p>
 
                 {/* Submit Button */}
-                <button type="submit" className="form-button">{isPending? "Signing in...": "Signin"}</button>
+                <button type="submit" className="form-button">{isPending ? "Signing in..." : "Signin"}</button>
 
                 {/* Switch to Login */}
                 <p className="form-switcher">
                   <span className="form-switcher-text">Don't have an account? </span>
                   <Link to="/signup" className="greenify-text">Sign up</Link>
-                </p> 
+                </p>
               </Form>
             )}
           </Formik>
         </div>
 
         <div className="auth-page-illustrator">
-          <img src={assets.videoCall} alt="video call" className='illustrator-image'/>
+          <img src={assets.videoCall} alt="video call" className='illustrator-image' />
           <div>
             <h3 className='auth-page-illustrator-heading'>Connect with language partners worldwide</h3>
             <p className='auth-page-illustrator-paragraph' >Practice conversations, make friends, and improve your  language skills together</p>
