@@ -57,7 +57,7 @@ export const signup = async (req, res) => {
         <p>This OTP is valid for 10 minutes.</p>
         <div class="footer">
           If you did not request this, please ignore this email.<br/>
-          &copy; 2025 Your App Name
+          &copy; 2025 VocaSync
         </div>
       </div>
     </body>
