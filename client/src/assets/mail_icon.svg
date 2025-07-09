@@ -1,3 +1,7 @@
-<svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0.55L0.535714 0H14.4643L15 0.55V10.45L14.4643 11H0.535714L0 10.45V0.55ZM1.07143 1.6885V9.9H13.9286V1.6896L7.83214 6.49H7.17857L1.07143 1.6885ZM12.8893 1.1H2.11071L7.5 5.3559L12.8893 1.1Z" fill="#B3C0FF"/>
-</svg>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg width="64px" height="64px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" id="Stock_cut" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier"> <desc/> <g> <rect fill="none" height="22" stroke="#279d60" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" width="30" x="1" y="5"/> <polyline fill="none" points="1,5 16,20 31,5 " stroke="#279d60" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/> <line fill="none" stroke="#279d60" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="1" x2="12" y1="27" y2="16"/> <line fill="none" stroke="#279d60" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="31" x2="20" y1="27" y2="16"/> </g> </g>
+</svg>

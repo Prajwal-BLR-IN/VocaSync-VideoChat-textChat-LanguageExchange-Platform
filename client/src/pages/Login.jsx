@@ -1,4 +1,3 @@
-import React from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { assets } from '../assets/assets'
@@ -100,8 +99,13 @@ const Login = () => {
                 </p>
 
                 {/* Submit Button */}
-                <button type="submit" className="form-button">{isPending ? "Signing in..." : "Signin"}</button>
-
+                <button type="submit" className="form-button">{isPending ? (
+                  <>
+                  <div className='loading-spinner' >
+                  </div>
+                  <span>Signing in...</span>
+                  </>
+                ) : "Sign in"}</button>
                 {/* Switch to Login */}
                 <p className="form-switcher">
                   <span className="form-switcher-text">Don't have an account? </span>

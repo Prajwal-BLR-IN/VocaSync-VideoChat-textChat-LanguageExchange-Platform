@@ -5,12 +5,11 @@ import { assets } from '../assets/assets'
 import { axiosInstanace } from '../lib/axiosInstance'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 const Signup = () => {
   const navigate = useNavigate()
-  const queryClient = useQueryClient();
-
+  
   const initialValue = {
     fullName: '',
     email: '',
@@ -31,7 +30,6 @@ const { mutate, isPending } = useMutation({
     const { data } = await axiosInstanace.post('/auth/signup', value);
     if (data.success) {
       toast.success(data.message);
-      navigate('/');
       return data;
     } else {
       // In case success is false but no error was thrown
@@ -40,11 +38,11 @@ const { mutate, isPending } = useMutation({
   },
 
   onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['authUser'] });
+    navigate('/verify-email')
   },
 
   onError: (error) => {
-    console.log("Login error:", error);
+    console.log("Signup error:", error);
     const backendMessage = error.response?.data?.message || error.message;
     toast.error(backendMessage);
   }
@@ -121,11 +119,17 @@ const { mutate, isPending } = useMutation({
                   </span>
                 </label>
                 {touched.acceptTerms && errors.acceptTerms && (
-                  <div className="error-message active">{errors.acceptTerms}</div>
+                  <div className="error-message error-message-tick">{errors.acceptTerms}</div>
                 )}
 
                 {/* Submit Button */}
-                <button type="submit" className="form-button">{isPending ? "Signing Up..." : "Sign up"}</button>
+                <button type="submit" className="form-button">{isPending ? (
+                  <>
+                  <div className='loading-spinner' >
+                  </div>
+                  <span>Signing up...</span>
+                  </>
+                ) : "Sign up"}</button>
 
                 {/* Switch to Login */}
                 <p className="form-switcher">

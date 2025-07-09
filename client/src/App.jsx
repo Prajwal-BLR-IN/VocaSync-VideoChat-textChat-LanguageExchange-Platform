@@ -11,6 +11,7 @@ import Onboarding from './pages/Onboarding';
 import Notificaon from './pages/Notification';
 import Chat from './pages/Chat';
 import Call from './pages/Call';
+import Otp from "./pages/Otp";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
     <Routes>
       <Route path="/" element={ authUser?  <Home /> : <Navigate to="/login"  /> } />
       <Route path="/signup" element={ !authUser? <Signup /> : <Navigate to='/' /> } />
+      <Route path="/verify-email" element={ <Otp />  } />
       <Route path="/login" element={ !authUser? <Login />:  <Navigate to='/' /> } />
       <Route path="/onboarding" element={ authUser? <Onboarding /> : <Navigate to="/login"/> } />
       <Route path="/notifications" element={ authUser? <Notificaon /> : <Navigate to="/login"/>  } />
