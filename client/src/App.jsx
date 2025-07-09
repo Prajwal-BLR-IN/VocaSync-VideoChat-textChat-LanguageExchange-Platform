@@ -1,46 +1,80 @@
 import "./index.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Home from './pages/Home'
-import Login from './pages/Login'
+import Home from './pages/Home';
+import Login from './pages/Login';
 import NotFound from "./pages/NotFound";
-import toast, {Toaster} from 'react-hot-toast'
-import { useQuery } from "@tanstack/react-query";
-import { axiosInstanace } from "./lib/axiosInstance";
+import { Toaster } from 'react-hot-toast';
 import Signup from './pages/Signup';
 import Onboarding from './pages/Onboarding';
 import Notificaon from './pages/Notification';
 import Chat from './pages/Chat';
 import Call from './pages/Call';
 import Otp from "./pages/Otp";
+import LoadingScreen from "./components/LoadingScreen";
+import { useAuthUser } from "./hooks/useAuthUser";
 
 function App() {
+  const { isLoading, authUser } = useAuthUser();
 
-  const {data: authData, isLoading, error} = useQuery({
-    queryKey: ["authUser"],
-    queryFn: async () => {
-      const {data} =  await axiosInstanace.get('/auth/me')
-      return data
-    },
-    retry: false
-  })
+  const isAuthenticated = Boolean(authUser);
+  const isAccountVerified = authUser?.isAccountVerified;
+  const isOnboarded = authUser?.isOnboarded;
 
+  if (isLoading) return <LoadingScreen />;
 
-  const authUser = authData?.user;
+  // Handle dynamic home route rendering
+  const renderHomeRoute = () => {
+    if (isAuthenticated && isAccountVerified && isOnboarded) {
+      return <Home />;
+    } else if (isAuthenticated && !isAccountVerified) {
+      return <Navigate to="/verify-email" />;
+    } else if (isAuthenticated && isAccountVerified && !isOnboarded) {
+      return <Navigate to="/onboarding" />;
+    } else {
+      return <Navigate to="/login" />;
+    }
+  };
 
   return (
     <>
-    <Toaster />
-    <Routes>
-      <Route path="/" element={ authUser?  <Home /> : <Navigate to="/login"  /> } />
-      <Route path="/signup" element={ !authUser? <Signup /> : <Navigate to='/' /> } />
-      <Route path="/verify-email" element={ <Otp />  } />
-      <Route path="/login" element={ !authUser? <Login />:  <Navigate to='/' /> } />
-      <Route path="/onboarding" element={ authUser? <Onboarding /> : <Navigate to="/login"/> } />
-      <Route path="/notifications" element={ authUser? <Notificaon /> : <Navigate to="/login"/>  } />
-      <Route path="/call" element={ authUser? <Call /> : <Navigate to="/login"/>  } />
-      <Route path="/chat" element={ authUser? <Chat /> : <Navigate to="/login"/> } />
-      <Route path="*" element={ <NotFound /> } />
-    </Routes>
+      <Toaster />
+      <Routes>
+        <Route path="/" element={renderHomeRoute()} />
+
+        <Route
+          path="/signup"
+          element={!isAuthenticated ? <Signup /> : <Navigate to="/" />}
+        />
+
+        <Route path="/verify-email" element={<Otp />} />
+
+        <Route
+          path="/login"
+          element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
+        />
+
+        <Route
+          path="/onboarding"
+          element={isAuthenticated ? <Onboarding /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/notifications"
+          element={isAuthenticated ? <Notificaon /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/call"
+          element={isAuthenticated ? <Call /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/chat"
+          element={isAuthenticated ? <Chat /> : <Navigate to="/login" />}
+        />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }

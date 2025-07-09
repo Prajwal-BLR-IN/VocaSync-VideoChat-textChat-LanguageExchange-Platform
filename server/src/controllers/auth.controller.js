@@ -118,7 +118,7 @@ export const verifyAccount = async (req, res) => {
     user.verifyOTPExpireAt = 0;
     user.save();
 
-    return res.status(200).json({ success: true, user, message: "Account registration successfull" })
+    return res.status(200).json({ success: true, user, message: "Account verfication successfull" })
 
   } catch (error) {
     console.log("Error verifiying OTP: ", error)
@@ -217,7 +217,7 @@ export const onboarding = async(req, res) => {
       console.log("Error updating the Stream user: ", error)
     }
     
-    return res.status(200).json({ success: true, message: "onboarding sucessfull" });
+    return res.status(200).json({ success: true, message: "Account Created Successfully" });
     
   } catch (error) {
     console.log("Error setting up onbaording data: ", error)

@@ -1,14 +1,11 @@
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { assets } from '../assets/assets'
-import { axiosInstanace } from '../lib/axiosInstance'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-hot-toast'
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useCustomMutation } from '../hooks/useCustomMutation';
 
 const Login = () => {
   const navigate = useNavigate()
-  const queryClient = useQueryClient();
 
   const initialValue = {
     email: '',
@@ -20,28 +17,10 @@ const Login = () => {
     password: Yup.string().min(8, "⚠ must be 8+ charecters").required(' ⚠ Required'),
   })
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (value) => {
-      const { data } = await axiosInstanace.post('/auth/login', value);
-      if (data.success) {
-        toast.success(data.message);
-        navigate('/');
-        return data;
-      } else {
-        // In case success is false but no error was thrown
-        throw new Error("Login failed");
-      }
-    },
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['authUser'] });
-    },
-
-    onError: (error) => {
-      console.log("Login error:", error);
-      const backendMessage = error.response?.data?.message || error.message;
-      toast.error(backendMessage);
-    }
+  const { mutate, isPending } = useCustomMutation({
+    url: '/auth/login',
+    onSuccessRedirect: () => navigate('/'),
+    invalidateKey: 'authUser'
   });
 
 

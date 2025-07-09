@@ -2,10 +2,9 @@ import React from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { assets } from '../assets/assets'
-import { axiosInstanace } from '../lib/axiosInstance'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-hot-toast'
-import { useMutation } from '@tanstack/react-query'
+import { useCustomMutation } from '../hooks/useCustomMutation'
+
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -25,28 +24,10 @@ const Signup = () => {
   })
 
 
-const { mutate, isPending } = useMutation({
-  mutationFn: async (value) => {
-    const { data } = await axiosInstanace.post('/auth/signup', value);
-    if (data.success) {
-      toast.success(data.message);
-      return data;
-    } else {
-      // In case success is false but no error was thrown
-      throw new Error("Signup failed");
-    }
-  },
-
-  onSuccess: () => {
-    navigate('/verify-email')
-  },
-
-  onError: (error) => {
-    console.log("Signup error:", error);
-    const backendMessage = error.response?.data?.message || error.message;
-    toast.error(backendMessage);
-  }
-});
+  const { mutate, isPending } = useCustomMutation({
+    url: '/auth/signup',
+    onSuccessRedirect: () => navigate('/verify-email')
+  });
 
 
   const onSubmit = (value) => {

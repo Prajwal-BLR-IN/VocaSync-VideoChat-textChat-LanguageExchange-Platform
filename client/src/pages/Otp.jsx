@@ -2,35 +2,18 @@ import React, { useRef, useState } from 'react'
 import { assets } from '../assets/assets';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { axiosInstanace } from '../lib/axiosInstance';
+import { useCustomMutation } from '../hooks/useCustomMutation';
+
 
 const Otp = () => {
     const [otp, setOTP] = useState(Array(6).fill(''));
     const inputRef = useRef([]);
-    const queryClient = useQueryClient();
     const navigate = useNavigate()
 
-    const {mutate, isPending,} = useMutation({
-        mutationFn: async (fullOtp) => {
-            const {data} = await axiosInstanace.post('/auth/verify-account', { otp: fullOtp });
-            if(data.success) {
-                toast.success(data.message)
-                return data;
-            }else{
-                throw new Error("OTP verification failed");
-            }
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["authUser"]})
-            navigate('/')
-        },
-        onError: (error) => {
-            console.log(error);
-            const backendMessage = error.response?.data?.message || error.message;
-            toast.error(backendMessage);
-        }
-    })
+  const { mutate, isPending } = useCustomMutation({
+    url: '/auth/verify-account',
+    onSuccessRedirect: () => navigate('/onboarding')
+  });
 
     const handleChange = (e, index) => {
         const value = e.target.value.replace(/[^0-9]/g, '');
@@ -41,6 +24,15 @@ const Otp = () => {
         setOTP(newOtp);
 
         if (index < 5) inputRef.current[index + 1]?.focus();
+
+        setTimeout(() => {
+            const fullOtp = newOtp.join('');
+            if (fullOtp.length === 6 && !newOtp.includes('')) {
+                mutate({otp: fullOtp});
+
+            }
+        }, 10); // short delay to ensure state is updated
+
     }
 
     const handleKeyDown = (e, index) => {
@@ -81,7 +73,7 @@ const Otp = () => {
         setTimeout(() => {
             const fullOtp = newOtp.join('');
             if (fullOtp.length === 6 && !newOtp.includes('')) {
-                mutate(fullOtp);
+                mutate({otp: fullOtp});
 
             }
         }, 10); // short delay to ensure state is updated
@@ -96,7 +88,7 @@ const Otp = () => {
             return;
         }
 
-         mutate(fullOtp);
+         mutate({otp: fullOtp});
 
     }
 
@@ -104,7 +96,7 @@ const Otp = () => {
         <div className="auth-wrapper">
             <div className="auth-section">
                 <div className="form-control">
-                    <form onSubmit={handleSubmit} >
+                    <form onSubmit={handleSubmit} className='otp-form-wrapper'>
                         <img src={assets.logo} alt="logo" className="logo-image" />
                         <h2 className="form-heading">Verify Your Account</h2>
                         <p className="form-paragraph">Enter the OTP we sent to continue your language journey</p>
