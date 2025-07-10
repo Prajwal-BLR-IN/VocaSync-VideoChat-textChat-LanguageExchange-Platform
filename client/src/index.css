@@ -43,6 +43,7 @@
 }
 
 input,
+textarea,
 button,
 select {
   background: none;
@@ -50,7 +51,9 @@ select {
 }
 
 input,
-select{  outline: none; }
+select{  outline: none; 
+color: var(--bg-color)
+}
 
 button{ cursor: pointer; }
 
@@ -70,7 +73,7 @@ body {
   color: var(--bg-color);
   font-family: var(--fontfamily-outfit);
   font-size: 2rem;
-  overflow: hidden;
+  overflow: auto;
   min-height: 100vh;
 }
 
@@ -217,6 +220,46 @@ body {
   font-size: inherit;
  }
 
+.form-control textarea {
+  border-radius: 10px;
+  background-color: #1e1e1e;
+  font-size: 2rem;
+  color: #fff;
+  min-height: 8rem;
+  resize: vertical;
+  overflow-y: auto;
+
+  scrollbar-width: thin;                  /* Firefox */
+  scrollbar-color: #666 transparent;      /* Firefox */
+}
+
+/* WebKit browsers (Chrome, Edge, Safari) */
+.form-control textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-control textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.form-control textarea::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 8px;
+}
+
+/* ✅ Hides top and bottom arrow buttons */
+.form-control textarea::-webkit-scrollbar-button:single-button {
+  display: none;
+  background: transparent;
+  height: 0;
+  width: 0;
+}
+
+
+
+
+
+
  .form-control .password-warning{
   margin-top: -20px;
   font-size: 2rem;
@@ -350,6 +393,53 @@ body {
   text-align: center;
  }
 
+ .onboarding-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-y: auto;
+ }
+
+ .onboarding-section{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--sea-green-alpha);
+  border-radius: 10px;
+  max-width: 90vw;
+ }
+
+
+ .profile-picture-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 60%;
+  margin: 3rem auto;
+ }
+
+ .profile-picture-wrapper .onboarding-profile-picture{
+  width: 60%;
+ }
+
+ .profile-picture-wrapper .random-icon{
+  width: 3rem;
+ }
+ 
+ .globe-icon{
+  width: 3rem;
+ }
+
+ .form-langauge-wrapper{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+ }
+
+
+
 /* Extra small devices (phones, <576px) */
 @media only screen and (max-width: 575.98px) {
 
@@ -367,7 +457,12 @@ body {
 }
   .auth-section .auth-page-illustrator{
   display: none;
-}
+  }
+
+  .form-langauge-wrapper{
+  display: block
+ }
+
 }
 
 /* Small devices (landscape phones, ≥576px) */

@@ -4,6 +4,10 @@ import personIcon from './person_icon.svg';
 import mailIcon from './mail_icon.svg';
 import lockIcon from './lock_icon.svg';
 import EnterOtp from './Enter-OTP.png';
+import randomIcon from './random_icon.svg';
+import globeIcon from './globe_icon.svg';
+import profilePic from './Profile_pic.svg';
+import locationIcon from './location_icon.svg'
 
 
 export const assets = {
@@ -12,5 +16,9 @@ export const assets = {
     personIcon,
     mailIcon,
     lockIcon,
-    EnterOtp
+    EnterOtp,
+    randomIcon,
+    globeIcon,
+    profilePic,
+    locationIcon
 }

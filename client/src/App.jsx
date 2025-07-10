@@ -55,7 +55,7 @@ function App() {
 
         <Route
           path="/onboarding"
-          element={isAuthenticated ? <Onboarding /> : <Navigate to="/login" />}
+          element={isAuthenticated ? (!isOnboarded? (<Onboarding />) : (<Navigate to="/login" />) ) : (<Navigate to="/login" />)}
         />
 
         <Route
