@@ -6,12 +6,13 @@ import NotFound from "./pages/NotFound";
 import { Toaster } from 'react-hot-toast';
 import Signup from './pages/Signup';
 import Onboarding from './pages/Onboarding';
-import Notificaon from './pages/Notification';
 import Chat from './pages/Chat';
 import Call from './pages/Call';
 import Otp from "./pages/Otp";
 import LoadingScreen from "./components/LoadingScreen";
 import { useAuthUser } from "./hooks/useAuthUser";
+import Layout from "./components/Layout";
+import Notification from "./pages/Notification";
 
 function App() {
   const { isLoading, authUser } = useAuthUser();
@@ -25,7 +26,11 @@ function App() {
   // Handle dynamic home route rendering
   const renderHomeRoute = () => {
     if (isAuthenticated && isAccountVerified && isOnboarded) {
-      return <Home />;
+      return (
+        <Layout showSidebar >
+          <Home />
+        </Layout>
+    );
     } else if (isAuthenticated && !isAccountVerified) {
       return <Navigate to="/verify-email" />;
     } else if (isAuthenticated && isAccountVerified && !isOnboarded) {
@@ -60,7 +65,7 @@ function App() {
 
         <Route
           path="/notifications"
-          element={isAuthenticated ? <Notificaon /> : <Navigate to="/login" />}
+          element={isAuthenticated ? <Notification/> : <Navigate to="/login" />}
         />
 
         <Route

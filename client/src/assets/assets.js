@@ -7,7 +7,11 @@ import EnterOtp from './Enter-OTP.png';
 import randomIcon from './random_icon.svg';
 import globeIcon from './globe_icon.svg';
 import profilePic from './Profile_pic.svg';
-import locationIcon from './location_icon.svg'
+import locationIcon from './location_icon.svg';
+import friendsIcon from './friends-icon.svg';
+import homeIcon from './home_icon.svg';
+import notificationIcon from './notification_icon.svg';
+
 
 
 export const assets = {
@@ -20,5 +24,8 @@ export const assets = {
     randomIcon,
     globeIcon,
     profilePic,
-    locationIcon
+    locationIcon,
+    homeIcon,
+    notificationIcon,
+    friendsIcon,
 }

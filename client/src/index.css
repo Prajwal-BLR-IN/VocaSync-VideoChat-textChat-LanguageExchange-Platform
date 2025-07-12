@@ -6,13 +6,14 @@
 
 :root {
   /* Theme color */
-  --bg-color: #f9fdf9;
+  --bg-color: #ccc6c6;
   --text-color: #1a1a1a;
 
   /* custom colors */
   --sea-green: #279d60;
   --sea-green-alpha: #279d6077;
   --sea-green-alpha2: #279d60e1;
+  --Licorice: #140e0e;
   --tea-green: #c5e8c7;
 
  /**
@@ -125,7 +126,7 @@ body {
   flex-wrap: wrap;
   padding: 5rem 2rem;
   /* background-color: #ffffff; */
-  background-color: black;
+  background-color: var(--Licorice);
   border-radius: inherit;
 }
 
@@ -437,6 +438,78 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
  }
+
+
+.home-screen-wrapper{
+  display: flex;
+  min-height: 100vh;
+ }
+
+.sidebar-wrapper{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: var(--Licorice);
+  width: 25rem;
+}
+
+.sidebar-wrapper .sidebar-top{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: inherit;
+}
+
+.sidebar-wrapper .sidebar-top .sidebar-logo{
+  width: 80%;
+  margin: 2rem 0;
+}
+
+.sidebar-wrapper .nav-link-anchors{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 1rem;
+  padding: 1rem;
+  margin: 0.8rem 0.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+.sidebar-wrapper .nav-link-anchors:hover{
+  background-color: var(--tea-green);
+  color: var(--sea-green);
+}
+
+.sidebar-wrapper .nav-link-anchors.active-button{
+  background-color: var(--tea-green);
+  color: var(--sea-green);
+}
+
+.sidebar-wrapper .nav-link-anchors .link-icons{
+  width: 3rem;
+}
+
+.sidebar-wrapper .sidebar-bottom{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem;
+}
+
+.sidebar-bottom .sidebar-profile-picture{
+  width: 5rem;
+}
+
+.sidebar-bottom .sidebar-username{
+  font-weight: 700;
+}
+
+.sidebar-bottom .online-status{
+  color: var(--sea-green);
+}
 
 
 
