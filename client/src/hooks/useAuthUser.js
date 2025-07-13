@@ -5,8 +5,13 @@ export const useAuthUser = () =>{
     const authUser = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
-      const {data} =  await axiosInstanace.get('/auth/me')
-      return data
+      try {
+        const {data} =  await axiosInstanace.get('/auth/me')
+        return data
+      } catch (error) {
+        console.log("Error in UseAuthUser", error);
+        return null;
+      }
     },
     retry: false
   })

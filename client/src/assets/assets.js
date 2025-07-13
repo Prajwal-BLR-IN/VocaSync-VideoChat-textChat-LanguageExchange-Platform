@@ -11,6 +11,9 @@ import locationIcon from './location_icon.svg';
 import friendsIcon from './friends-icon.svg';
 import homeIcon from './home_icon.svg';
 import notificationIcon from './notification_icon.svg';
+import logoutIcon from './logout_icon.svg';
+import lightIcon from './light_icon.svg';
+import darkIcon from './dark_icon.svg';
 
 
 
@@ -28,4 +31,7 @@ export const assets = {
     homeIcon,
     notificationIcon,
     friendsIcon,
+    logoutIcon,
+    lightIcon,
+    darkIcon
 }

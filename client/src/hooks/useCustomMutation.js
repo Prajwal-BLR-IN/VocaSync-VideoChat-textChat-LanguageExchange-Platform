@@ -25,14 +25,11 @@ export const useCustomMutation = ({ url, onSuccessRedirect, invalidateKey }) => 
       }
     },
 
-    onSuccess: () => {
+    onSuccess: async () => {
       if (invalidateKey) {
-        queryClient.invalidateQueries({ queryKey: [invalidateKey] });
+        await queryClient.invalidateQueries({ queryKey: [invalidateKey] });
       }
-      // 🔁 Wait until authUser updates, then redirect
-      setTimeout(() => {
-        if (onSuccessRedirect) onSuccessRedirect();
-      }, 300); // just enough time for query to update state
+      if (onSuccessRedirect) onSuccessRedirect();
     },
 
     onError: (error) => {
