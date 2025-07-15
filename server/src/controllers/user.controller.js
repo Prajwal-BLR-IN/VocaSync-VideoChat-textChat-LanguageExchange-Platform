@@ -14,12 +14,12 @@ export const getRecommendedUsers = async (req, res) => {
         */
 
         const currentUserID = req.user.id;
-        const currentUser = res.user;
+        const currentUser = req.user;
 
         const recommendedUsers = await userModel.find({
             $and: [
                 { _id: { $ne: currentUserID } }, // exclude current user
-                { $id: { $nin: currentUser.friends } }, // exclude current user's friends
+                { _id: { $nin: currentUser.friends } }, // exclude current user's friends
                 { isOnboarded: true } // only those who have completed onboarding
             ]
         });
@@ -36,7 +36,7 @@ export const getRecommendedUsers = async (req, res) => {
 export const getMyFriends = async (req, res) => {
     try {
 
-        const user = await userModel.findById(res.user.id).select("friends").populate("friends", "fullName profilePic nativeLanguage learningLanguage");
+        const user = await userModel.findById(req.user.id).select("friends").populate("friends", "fullName profilePic nativeLanguage learningLanguage");
 
         return res.status(200).json(user.friends);
 
@@ -124,12 +124,12 @@ export const getFriendRequests = async (req, res) => {
         const incomingReqs = await FriendRequest.find({
             recipient: req.user.id,
             status: "pending"
-        }).populate("sender", "fullname profilePic nativeLanguage learningLanguage");
+        }).populate("sender", "fullName profilePic nativeLanguage learningLanguage");
 
         const acceptedReqs = await FriendRequest.find({
             sender: req.user.id,
             status: "accepted"
-        }).populate("recipient", "fullname profilePic");
+        }).populate("recipient", "fullName profilePic");
 
         res.status(200).json({ incomingReqs, acceptedReqs })
 
@@ -145,7 +145,7 @@ export const getOutgoingFriendReqs = async (req, res) => {
         const outgoingFriendReqs = await FriendRequest.find({
             sender: req.user.id,
             status: "pending"
-        }).populate("recipient", "fullname profilePic nativeLanguage learningLanguage");
+        }).populate("recipient", "fullName profilePic nativeLanguage learningLanguage");
 
 
         res.status(200).json(outgoingFriendReqs)

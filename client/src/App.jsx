@@ -30,7 +30,7 @@ function App() {
         <Layout showSidebar >
           <Home />
         </Layout>
-    );
+      );
     } else if (isAuthenticated && !isAccountVerified) {
       return <Navigate to="/verify-email" />;
     } else if (isAuthenticated && isAccountVerified && !isOnboarded) {
@@ -60,12 +60,15 @@ function App() {
 
         <Route
           path="/onboarding"
-          element={isAuthenticated ? (!isOnboarded? (<Onboarding />) : (<Navigate to="/login" />) ) : (<Navigate to="/login" />)}
+          element={isAuthenticated ? (!isOnboarded ? (<Onboarding />) : (<Navigate to="/login" />)) : (<Navigate to="/login" />)}
         />
 
         <Route
           path="/notifications"
-          element={isAuthenticated ? <Notification/> : <Navigate to="/login" />}
+          element={isAuthenticated && isAccountVerified && isOnboarded ? (
+            <Layout showSidebar >
+              <Notification />
+            </Layout>) : <Navigate to="/login" />}
         />
 
         <Route

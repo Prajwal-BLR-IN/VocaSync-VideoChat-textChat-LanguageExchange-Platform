@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 const userSchema = new mongoose.Schema({
     fullName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, minlenth: 8 },
+    password: { type: String, required: true, minlength: 8 },
     verifyOTP: { type: String, default: '' },
     verifyOTPExpireAt: { type: Number, default: 0 },
     bio: { type: String, default: '' },
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     friends: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "users"
+            ref: "User"
         }
     ]
 }, { timestamps: true })
@@ -39,6 +39,6 @@ userSchema.pre('save', async function (next) {
     }
 })
 
-const userModel = mongoose.models.users || mongoose.model('users', userSchema);
+const userModel = mongoose.models.users || mongoose.model('User', userSchema);
 
 export default userModel;
