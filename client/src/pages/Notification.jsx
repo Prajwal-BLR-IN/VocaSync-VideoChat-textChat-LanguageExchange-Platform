@@ -42,7 +42,7 @@ const Notification = () => {
             {incomingRequests.length > 0 && (
               <section className="request-section">
                 <div className="request-header">
-                  <img src={assets.personIcon} alt="" className="request-header-icon"/>
+                  <img src={assets.personIcon} alt="" className="request-header-icon" />
                   <h2 className="request-heading" >Friend Requests</h2>
                   <span className="notification-count" >{incomingRequests.length}</span>
                 </div>
@@ -61,42 +61,51 @@ const Notification = () => {
                         </div>
                       </div>
 
-                      <button className="Accept-button btn-primary" 
-                      onClick={() => acceptReqsMutation(request._id)}
-                      disabled={isPending}
+                      <button className="Accept-button btn-primary"
+                        onClick={() => acceptReqsMutation(request._id)}
+                        disabled={isPending}
                       >Accept</button>
                     </div>
                   ))}
                 </div>
               </section>
             )}
-            <section className="request-section" >
-              <div className="request-header">
-                  <img src={assets.personIcon} alt="" className="request-header-icon"/>
-                  <h2 className="request-heading" >New Connections</h2>
-              </div>
 
-                              <div className="incomingreqs-wrapper">
-                  {acceptedRequests.map((notification) => (
-                    <div key={notification.recipient._id} className="incomingreqs-card" >
+            <div className="incomingreqs-wrapper">
+              {acceptedRequests.map((notification) => (
+                <section className="request-section" >
+                  <div className="request-header">
+                    <img src={assets.personIcon} alt="" className="request-header-icon" />
+                    <h2 className="request-heading" >New Connections</h2>
+                  </div>
+                  <div key={notification.recipient._id} className="incomingreqs-card" >
 
-                      <div className="incomingreqs-card-left">
-                        <img src={notification.profilePic} alt="profile pic" />
-                        <div className="incoming-person-info">
-                          <h3 className="incoming-person-name" >{notification.recipient.fullName || 'John Morrison'}</h3>
-                          <p>{notification.recipient.fullName} accepted your friend request</p>
-                        </div>
+                    <div className="incomingreqs-card-left">
+                      <img src={notification.profilePic} alt="profile pic" />
+                      <div className="incoming-person-info">
+                        <h3 className="incoming-person-name" >{notification.recipient.fullName || 'John Morrison'}</h3>
+                        <p>{notification.recipient.fullName} accepted your friend request</p>
                       </div>
+                    </div>
 
-                      <button className="Accept-button btn-primary" 
+                    <button className="Accept-button btn-primary"
                       onClick={() => acceptReqsMutation(notification._id)}
                       disabled={isPending}
-                      >Message</button>
-                    </div>
-                  ))}
+                    >Message</button>
+                  </div>
+                </section>
+                ))}
                 </div>
 
-            </section>
+
+
+            {incomingRequests.length === 0 && acceptedRequests.length === 0 && (
+              <div>
+                <h2>No notifications yet</h2>
+                <p>When you receive friend requests or messages, they'll appear here.</p>
+              </div>
+            )}
+
           </>
         )}
 
