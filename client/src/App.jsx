@@ -1,4 +1,4 @@
-import "./index.css";
+
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -6,13 +6,13 @@ import NotFound from "./pages/NotFound";
 import { Toaster } from 'react-hot-toast';
 import Signup from './pages/Signup';
 import Onboarding from './pages/Onboarding';
-import Chat from './pages/Chat';
 import Call from './pages/Call';
 import Otp from "./pages/Otp";
 import LoadingScreen from "./components/LoadingScreen";
 import { useAuthUser } from "./hooks/useAuthUser";
 import Layout from "./components/Layout";
 import Notification from "./pages/Notification";
+import ChatPage from "./pages/ChatPage";
 
 function App() {
   const { isLoading, authUser } = useAuthUser();
@@ -77,8 +77,11 @@ function App() {
         />
 
         <Route
-          path="/chat"
-          element={isAuthenticated ? <Chat /> : <Navigate to="/login" />}
+          path="/chat/:id"
+          element={isAuthenticated && isAccountVerified && isOnboarded ? (
+            <Layout showSidebar={false} >
+              <ChatPage />
+            </Layout>) : <Navigate to="/login" />}
         />
 
         <Route path="*" element={<NotFound />} />
