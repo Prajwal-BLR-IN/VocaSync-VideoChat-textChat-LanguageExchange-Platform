@@ -6,13 +6,13 @@ import NotFound from "./pages/NotFound";
 import { Toaster } from 'react-hot-toast';
 import Signup from './pages/Signup';
 import Onboarding from './pages/Onboarding';
-import Call from './pages/Call';
 import Otp from "./pages/Otp";
 import LoadingScreen from "./components/LoadingScreen";
 import { useAuthUser } from "./hooks/useAuthUser";
 import Layout from "./components/Layout";
 import Notification from "./pages/Notification";
 import ChatPage from "./pages/ChatPage";
+import CallPage from "./pages/CallPage";
 
 function App() {
   const { isLoading, authUser } = useAuthUser();
@@ -72,8 +72,11 @@ function App() {
         />
 
         <Route
-          path="/call"
-          element={isAuthenticated ? <Call /> : <Navigate to="/login" />}
+          path="/call/:id"
+          element={isAuthenticated && isAccountVerified && isOnboarded ? (
+            <Layout showSidebar={false} >
+              <CallPage />
+            </Layout>) : <Navigate to="/login" />}
         />
 
         <Route
