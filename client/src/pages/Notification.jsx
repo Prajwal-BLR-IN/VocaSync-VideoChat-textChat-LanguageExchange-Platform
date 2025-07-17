@@ -55,13 +55,13 @@ const Notification = () => {
                         <div className="incoming-person-info">
                           <h3 className="incoming-person-name" >{request.sender.fullName || 'John Morrison'}</h3>
                           <div className="incoming-person-langauages">
-                            <span className="native-lang lang-wrapper" >Native: {request.sender.nativeLanguage}</span>
-                            <span className="learning-lang lang-wrapper" >Learning: {request.sender.learningLanguage}</span>
+                            <span >Native: {request.sender.nativeLanguage}</span>
+                            <span>Learning: {request.sender.learningLanguage}</span>
                           </div>
                         </div>
                       </div>
 
-                      <button className="Accept-button btn-primary"
+                      <button className="Accept-button"
                         onClick={() => acceptReqsMutation(request._id)}
                         disabled={isPending}
                       >Accept</button>
@@ -88,7 +88,7 @@ const Notification = () => {
                       </div>
                     </div>
 
-                    <button className="Accept-button btn-primary"
+                    <button className="Accept-button"
                       onClick={() => acceptReqsMutation(notification._id)}
                       disabled={isPending}
                     >Message</button>
@@ -100,7 +100,7 @@ const Notification = () => {
 
 
             {incomingRequests.length === 0 && acceptedRequests.length === 0 && (
-              <div>
+              <div className="no-notification">
                 <h2>No notifications yet</h2>
                 <p>When you receive friend requests or messages, they'll appear here.</p>
               </div>

@@ -4,7 +4,7 @@ import { assets } from '../assets/assets';
 import { useAuthUser } from '../hooks/useAuthUser';
 import { useCustomMutation } from '../hooks/useCustomMutation';
 import ToggleThemeButton from './ToggleThemeButton'
-const Navbar = () => {
+const Navbar = ({toggleSidebar}) => {
   const {authUser} = useAuthUser();
 
   const location = useLocation();
@@ -19,11 +19,18 @@ const Navbar = () => {
 
   return (
     <header className='header'>
+
+      <div className='sidebar-toggle' onClick={toggleSidebar}> 
+          <img src={assets.menuIcon} alt=""/>
+      </div>
+
       { chatPage && (
         <div>
         <img src={assets.logo} alt="logo image" />
         </div>
       )  }
+
+
 
       <div className="utility-wrapper">
         <Link to="/notifications" >
@@ -32,7 +39,7 @@ const Navbar = () => {
 
         <ToggleThemeButton />
 
-        <img src={authUser.profilePic} alt="profile-pic" className='profile-picture'  />
+        <img src={authUser.profilePic} alt="" className='profile-picture'  />
 
         <img src={assets.logoutIcon} alt="logout" onClick={() => mutate()} />
       </div>

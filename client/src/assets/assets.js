@@ -14,7 +14,10 @@ import notificationIcon from './notification_icon.svg';
 import logoutIcon from './logout_icon.svg';
 import lightIcon from './light_icon.svg';
 import darkIcon from './dark_icon.svg';
-
+import personAdd from './person_add.svg';
+import personCheck from './person_check.svg';
+import sentIcon from './sent_icon.svg';
+import menuIcon from './menu_icon.svg'
 
 
 export const assets = {
@@ -33,5 +36,9 @@ export const assets = {
     friendsIcon,
     logoutIcon,
     lightIcon,
-    darkIcon
+    darkIcon,
+    personAdd,
+    personCheck,
+    sentIcon,
+    menuIcon
 }

@@ -7,13 +7,13 @@ const ToggleThemeButton = () => {
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   const [fade, setFade] = useState(false);
-  const [icon, setIcon] = useState(theme === "dark" ? assets.darkIcon : assets.lightIcon);
+  const [icon, setIcon] = useState(theme === "dark" ? assets.lightIcon : assets.darkIcon);
 
   useEffect(() => {
     setFade(true); // start fade out
 
     const timeout = setTimeout(() => {
-      setIcon(theme === "dark" ? assets.darkIcon : assets.lightIcon);
+      setIcon(theme === "dark" ? assets.lightIcon : assets.darkIcon);
       setFade(false); // fade in
     }, 150); // half of total transition duration
 
