@@ -1,8 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { axiosInstanace } from "../utils/axiosInstance";
 import { assets } from "../assets/assets";
+import { useNavigate } from "react-router-dom";
 
 const Notification = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { data: friendRequests, isLoading } = useQuery({
@@ -81,7 +83,7 @@ const Notification = () => {
                   <div key={notification.recipient._id} className="incomingreqs-card" >
 
                     <div className="incomingreqs-card-left">
-                      <img src={notification.profilePic} alt="profile pic" />
+                      <img src={notification.recipient.profilePic} alt="profile pic" />
                       <div className="incoming-person-info">
                         <h3 className="incoming-person-name" >{notification.recipient.fullName || 'John Morrison'}</h3>
                         <p>{notification.recipient.fullName} accepted your friend request</p>
@@ -89,7 +91,7 @@ const Notification = () => {
                     </div>
 
                     <button className="Accept-button"
-                      onClick={() => acceptReqsMutation(notification._id)}
+                      onClick={() => navigate(`/chat/${notification.recipient._id}`)}
                       disabled={isPending}
                     >Message</button>
                   </div>

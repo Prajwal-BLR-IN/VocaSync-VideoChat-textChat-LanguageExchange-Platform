@@ -13,6 +13,7 @@ import Layout from "./components/Layout";
 import Notification from "./pages/Notification";
 import ChatPage from "./pages/ChatPage";
 import CallPage from "./pages/CallPage";
+import FriendsPage from "./pages/FriendsPage";
 
 function App() {
   const { isLoading, authUser } = useAuthUser();
@@ -68,6 +69,14 @@ function App() {
           element={isAuthenticated && isAccountVerified && isOnboarded ? (
             <Layout showSidebar >
               <Notification />
+            </Layout>) : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/friends"
+          element={isAuthenticated && isAccountVerified && isOnboarded ? (
+            <Layout showSidebar >
+              <FriendsPage />
             </Layout>) : <Navigate to="/login" />}
         />
 

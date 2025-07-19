@@ -75,12 +75,12 @@ const Onboarding = () => {
                     {isAvatarLoading ? (
                       <>
                         <div className="loading-spinner"></div>
-                        <span>Generating...</span>
+                        <span className='onboarding-btn'>Generating...</span>
                       </>
                     ) : (
                       <>
                         <img src={assets.randomIcon} alt="random icon" className="random-icon" />
-                        <span>Generate Random Avatar</span>
+                        <span className='onboarding-btn'>Generate Random Avatar</span>
                       </>
                     )}
 
@@ -174,12 +174,12 @@ const Onboarding = () => {
                     {isPending ? (
                       <>
                         <div className="loading-spinner"></div>
-                        <span>Submitting...</span>
+                        <span className='onboarding-btn'>Submitting...</span>
                       </>
                     ) : (
                       <>
                         <img src={assets.globeIcon} alt="globe icon" className="globe-icon" />
-                        <span>Complete Onboarding</span>
+                        <span className='onboarding-btn'>Complete Onboarding</span>
                       </>
                     )}
                   </button>

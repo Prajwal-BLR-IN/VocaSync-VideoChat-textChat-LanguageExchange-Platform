@@ -66,7 +66,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="recommendedUser-wrapper">
+        <div>
           {loadingFriends ? (
             <div className="friends-loading-spinner">
               <div className="loading-spinner"></div>
@@ -75,7 +75,7 @@ const Home = () => {
           ) : friends.length === 0 ? (
             <NoFriendsFound />
           ) : (
-            <div className="friend-card">
+            <div className="recommendedUser-wrapper">
               {friends.map((friend) => (
                 <FriendCard key={friend._id} friend={friend} />
               ))}

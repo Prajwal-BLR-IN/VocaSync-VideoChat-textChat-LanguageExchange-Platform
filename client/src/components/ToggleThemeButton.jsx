@@ -25,7 +25,7 @@ const ToggleThemeButton = () => {
       <img
         src={icon}
         alt="theme icon"
-        className={`theme-icon ${fade ? "fade-out" : ""}`}
+        className={`header-util theme-icon ${fade ? "fade-out" : ""}`}
       />
     </button>
   );

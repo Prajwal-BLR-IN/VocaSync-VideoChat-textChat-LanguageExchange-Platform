@@ -20,28 +20,26 @@ const Navbar = ({toggleSidebar}) => {
   return (
     <header className='header'>
 
-      <div className='sidebar-toggle' onClick={toggleSidebar}> 
-          <img src={assets.menuIcon} alt=""/>
-      </div>
+      { !chatPage && (<div className='sidebar-toggle' onClick={toggleSidebar}> 
+          <img src={assets.menuIcon} alt="" className='header-util'/>
+      </div>)}
 
       { chatPage && (
-        <div>
-        <img src={assets.logo} alt="logo image" />
-        </div>
+        <img src={assets.logo} alt="logo image" className='chat-page-logo' onClick={() => navigate("/")}/>
       )  }
 
 
 
       <div className="utility-wrapper">
         <Link to="/notifications" >
-          <img src={assets.notificationIcon} alt="notification icon" />
+          <img src={assets.notificationIcon} alt="notification icon" className='header-util' />
         </Link>
 
         <ToggleThemeButton />
 
-        <img src={authUser.profilePic} alt="" className='profile-picture'  />
+        <img src={authUser.profilePic} alt="" className='header-util  profile-picture'  />
 
-        <img src={assets.logoutIcon} alt="logout" onClick={() => mutate()} />
+        <img src={assets.logoutIcon} alt="logout" className='header-util'  onClick={() => mutate()} />
       </div>
 
 

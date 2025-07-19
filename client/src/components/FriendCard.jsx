@@ -1,6 +1,7 @@
 import React from 'react'
 import { LANGUAGE_TO_FLAG } from '../constants/langaues';
 import { Link } from 'react-router-dom';
+import { assets } from '../assets/assets';
 
 export const getCountryFlag = (lang) => {
     if(!lang) return null
@@ -28,16 +29,19 @@ const FriendCard = ({friend}) => {
             <h3 className='friend-profile-fullname' >{friend.fullName}</h3>
         </div>
         <div className="friend-language">
-            <span className='native-lang' >
+            <span className='native-lang lang-wrapper' >
                 {getCountryFlag(friend.nativeLanguage)}
                 <span>Native: {friend.nativeLanguage} </span>
             </span>
-            <span className='learing-lang'>
+            <span className='learning-lang lang-wrapper'>
                  {getCountryFlag(friend.learningLanguage)}
-                <span>Native: {friend.LearningLanguage} </span>
+                <span>Learning: {friend.learningLanguage} </span>
             </span>
         </div>
-        <Link to={`/chat/${friend._id}`} className='friend-card-button' >Message</Link>
+            <Link to={`/chat/${friend._id}`} className='your-friend-wrapper' >
+            <img src={assets.chatIcon} alt="" />
+            <span>Message</span>
+            </Link>
     </div>
   )
 }

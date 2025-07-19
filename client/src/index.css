@@ -496,7 +496,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   overflow-y: auto;
 }
 
@@ -504,7 +503,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid var(--sea-green-alpha);
+  border: 0.3px solid var(--border-color);
+  box-shadow: 0px 0px 10px var(--shadow-color-primary) inset;
   border-radius: 10px;
   max-width: 90vw;
 }
@@ -521,10 +521,15 @@ body {
 
 .profile-picture-wrapper .onboarding-profile-picture {
   width: 60%;
+  border-radius: 50%;
 }
 
 .profile-picture-wrapper .random-icon {
   width: 3rem;
+}
+
+.onboarding-btn{
+  color: #ffffff;
 }
 
 .globe-icon {
@@ -617,6 +622,7 @@ body {
 
 .sidebar-bottom .sidebar-profile-picture {
   width: 5rem;
+  border-radius: 0.5rem;
 }
 
 .sidebar-bottom .sidebar-username {
@@ -635,7 +641,7 @@ body {
   width: inherit;
 }
 
-.header img {
+.header .header-util {
   width: 4.5rem;
   margin: 0 0.3rem;
   border-radius: 50%;
@@ -646,12 +652,17 @@ body {
   cursor: pointer;
 }
 
-.header img:hover {
+.header .header-util:hover {
   background-color: var(--bg-color);
 }
 
-.header img:active{
+.header .header-util:active{
     box-shadow: 0px 0px 10px var(--shadow-color-primary) inset;
+}
+
+.chat-page-logo{
+  width: 16rem;
+  cursor: pointer;
 }
 
 .theme-icon {
@@ -664,6 +675,7 @@ body {
   scale: 0.8;
   opacity: 0;
 }
+
 
 .home-wrapper {
   position: absolute;
@@ -713,6 +725,7 @@ body {
 
 .friends-panal .your-friend-wrapper img {
   width: 2rem;
+  border-radius: 50%;
 }
 
 .friends-loading-spinner {
@@ -775,6 +788,7 @@ body {
 
 .friend-profile-pic {
   width: 7rem;
+  border-radius: 1rem;
 }
 
 .location {
@@ -939,7 +953,10 @@ body {
 }
 
 .incomingreqs-card-left img {
-  width: 8rem;
+  width: 8.5rem;
+  border-radius: 0.5rem;
+  border: 0.3px solid var(--border-color);
+  box-shadow: 0px 0px 10px var(--shadow-color-primary) inset;
 }
 
 .incoming-person-langauages {
@@ -1189,7 +1206,6 @@ body {
     grid-template-columns: 1.4fr;
     justify-content: center;
     align-items: center;
-    border: 2px solid var(--sea-green-alpha);
     border-radius: 10px;
     max-width: 90vw;
   }
