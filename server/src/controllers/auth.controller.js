@@ -17,8 +17,8 @@ export const signup = async (req, res) => {
   try {
 
     //const generate a random avatar as a initial profile pic.
-    const idx = Math.floor(1 + Math.random() * 100);
-    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+    const idx = Math.floor(1 + Math.random() * 10000);
+    const randomAvatar = `https://api.dicebear.com/9.x/open-peeps/svg?seed=${idx}&backgroundColor=b6e3f4,ffdfbf,ffd5dc,d1d4f9,c0aede&face=smileLOL,smile,lovingGrin1,cute,contempt,calm,blank,awe`;
 
     //create a new document in database
     const user = new userModel({ fullName, email, password, profilePic: randomAvatar });

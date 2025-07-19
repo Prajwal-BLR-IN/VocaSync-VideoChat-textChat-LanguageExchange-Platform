@@ -17,7 +17,8 @@ import darkIcon from './dark_icon.svg';
 import personAdd from './person_add.svg';
 import personCheck from './person_check.svg';
 import sentIcon from './sent_icon.svg';
-import menuIcon from './menu_icon.svg'
+import menuIcon from './menu_icon.svg';
+import videoIcon from './video_call.svg';
 
 
 export const assets = {
@@ -40,5 +41,6 @@ export const assets = {
     personAdd,
     personCheck,
     sentIcon,
-    menuIcon
+    menuIcon,
+    videoIcon
 }

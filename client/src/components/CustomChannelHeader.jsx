@@ -1,8 +1,9 @@
 import React from "react";
 import { Avatar, useChannelStateContext, useChatContext } from "stream-chat-react";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
+import { assets } from "../assets/assets";
 
-const CustomChannelHeader = () => {
+const CustomChannelHeader = ({handleVideoCall}) => {
   const { channel, members } = useChannelStateContext();
   const { client } = useChatContext();
 
@@ -35,11 +36,19 @@ const CustomChannelHeader = () => {
 
   return (
     <div className="custom-header">
+
+      <div className="left-custom-header">
       <Avatar image={displayImage} name={displayName} size={40} />
       <div className="custom-header-info">
         <div className="custom-header-title">{displayName}</div>
         <div className="custom-header-subtitle">{presenceText}</div>
+        </div>
+ 
       </div>
+        <div className="right-custom-header">
+            <button onClick={handleVideoCall}  ><img src={assets.videoIcon} alt=""  className="video-call-btn" /></button>
+        </div>
+
     </div>
   );
 };

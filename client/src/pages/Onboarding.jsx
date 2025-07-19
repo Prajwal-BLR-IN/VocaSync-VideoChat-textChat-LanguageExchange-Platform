@@ -67,7 +67,7 @@ const Onboarding = () => {
                     className="form-button"
                     onClick={() => {
                       const idx = Math.floor(1 + Math.random() * 100);
-                      const randomPic = `https://avatar.iran.liara.run/public/${idx}.png`;
+                      const randomPic = `https://api.dicebear.com/9.x/open-peeps/svg?seed=${idx}&backgroundColor=b6e3f4,ffdfbf,ffd5dc,d1d4f9,c0aede&face=smileLOL,smile,lovingGrin1,cute,contempt,calm,blank,awe`;
                       setIsAvatarLoading(true);
                       setRandomAvatar(randomPic);
                       setFieldValue('profilePic', randomPic);

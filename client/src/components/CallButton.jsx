@@ -3,7 +3,7 @@ import { assets } from '../assets/assets'
 
 const CallButton = ({handleVideoCall}) => {
   return (
-    <button onClick={handleVideoCall} ><img src={assets.globeIcon} alt="" /></button>
+    <button onClick={handleVideoCall}  ><img src={assets.videoIcon} alt="" /></button>
   )
 }
 

@@ -16,7 +16,6 @@ import { StreamChat } from 'stream-chat';
 import toast from 'react-hot-toast';
 import ChatLoader from '../components/ChatLoader';
 import CustomChannelHeader from '../components/CustomChannelHeader';
-import { CustomMessageUI } from './CustomMessageUI';
 import CallButton from '../components/CallButton';
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
@@ -92,9 +91,9 @@ const ChatPage = () => {
       <Chat client={chatClient}>
         <Channel channel={channel} >
           <div className="chat-window">
-            <CallButton handleVideoCall={handleVideoCall} />
+            {/* <CallButton handleVideoCall={handleVideoCall} /> */}
             <Window>
-              <CustomChannelHeader />
+              <CustomChannelHeader handleVideoCall={handleVideoCall}/>
               <MessageList/>
               <MessageInput focus />
             </Window>
