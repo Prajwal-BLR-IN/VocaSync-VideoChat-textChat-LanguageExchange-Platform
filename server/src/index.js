@@ -3,8 +3,9 @@ import 'dotenv/config'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
-import authRouter from './routes/auth.route.js';
 import ConnectToDB from './configs/mongoDB.js';
+
+import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
 import chatRouter from './routes/chat.routes.js';
 

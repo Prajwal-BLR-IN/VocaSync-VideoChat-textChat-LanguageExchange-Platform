@@ -4,6 +4,7 @@ import { useAuthUser } from '../hooks/useAuthUser'
 
 const Sidebar = ({isOpen, closeSidebar}) => {
     const { authUser } = useAuthUser();
+    const isOnline = navigator.onLine;
 
     return (
         <aside className={`sidebar-wrapper ${isOpen && "sidebar-active"}`}>
@@ -40,7 +41,7 @@ const Sidebar = ({isOpen, closeSidebar}) => {
                 <img src={authUser.profilePic} alt="profile pic" className='sidebar-profile-picture' />
                 <div className="profile-details">
                     <p className="sidebar-username">{authUser.fullName}</p>
-                    <p className="online-status">⦿ online</p>
+                    <p className={ isOnline? "online-status": "offline-status"}> {isOnline? "⦿ online" : "⦿ offline"}</p>
                 </div>
             </div>
         </aside>

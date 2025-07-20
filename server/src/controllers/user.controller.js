@@ -138,7 +138,7 @@ export const getFriendRequests = async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal server error" })
     }
 }
-
+ 
 export const getOutgoingFriendReqs = async (req, res) => {
     try {
         

@@ -6,8 +6,8 @@ import { assets } from '../assets/assets';
 import FriendCard, { getCountryFlag } from '../components/FriendCard';
 import NoFriendsFound from '../components/NoFriendsFound';
 import NoRecommenedUserFound from '../components/NoRecommenedUserFound';
+import { capitilize } from '../utils/capitilize';
 
-const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const Home = () => {
   const queryClient = useQueryClient();
@@ -126,11 +126,11 @@ const Home = () => {
                 <div className="friend-language">
                   <span className="native-lang lang-wrapper ">
                     <span>{getCountryFlag(user.nativeLanguage)}</span>
-                    <span>{'  '}Native: {capitalize(user.nativeLanguage)}</span>
+                    <span>{'  '}Native: {capitilize(user.nativeLanguage)}</span>
                   </span>
                   <span className="learning-lang lang-wrapper">
                     {getCountryFlag(user.learningLanguage)}
-                    <span>{'  '}Learning: {capitalize(user.learningLanguage)}</span>
+                    <span>{'  '}Learning: {capitilize(user.learningLanguage)}</span>
                   </span>
                 </div>
 

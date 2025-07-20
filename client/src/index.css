@@ -633,6 +633,11 @@ body {
   color: var(--sea-green-alpha2);
 }
 
+.sidebar-bottom .offline-status {
+  color: var(--error-message);
+}
+
+
 .header {
   display: flex;
   justify-content: space-between;
