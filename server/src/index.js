@@ -10,9 +10,8 @@ import userRouter from "./routes/user.route.js";
 import chatRouter from "./routes/chat.routes.js";
 
 const app = express();
-const PORT = process.env.PORT;
 
-//middlewares
+// middlewares
 app.use(
   cors({
     origin: [
@@ -26,6 +25,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+// routes
 app.get("/", (req, res) => {
   res.send("API Running ..(🚀)..");
 });
@@ -34,7 +34,13 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/chat", chatRouter);
 
-app.listen(PORT, async () => {
-  console.log(`Server running is http://localhost:${PORT}`);
-  await ConnectToDB();
-});
+// connect DB once when server is initialized
+ConnectToDB()
+  .then(() => {
+    console.log("✅ Database connected");
+  })
+  .catch((err) => {
+    console.error("❌ Database connection failed:", err.message);
+  });
+
+export default app;
