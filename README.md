@@ -133,5 +133,3 @@ vite.config.ts
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
-
-If you'd like to enhance this README further with a GIF or video demonstration, feel free to let me know!
